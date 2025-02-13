@@ -13,6 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Open the file for writing (append mode)
     $fp = fopen($file, 'a');
 
+    // Check if file was opened successfully
+    if ($fp === false) {
+        die("Error opening the file");
+    }
+
     // Write headers if file is new
     if (!empty($headers)) {
         fputcsv($fp, $headers);
