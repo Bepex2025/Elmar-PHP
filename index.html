@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download PDF</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        form { max-width: 300px; margin: auto; }
+        input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Enter Your Information to Download</h2>
+    <form id="downloadForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <input type="text" id="organization" placeholder="Your Organization" required>
+        <button type="submit">Download PDF</button>
+    </form>
+    <p id="message" style="display:none; color: green;">Thank you! Click <a id="downloadLink" href="#" download>here</a> to download.</p>
+
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const organization = document.getElementById('organization').value;
+            
+            fetch('save_data.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `name=${name}&email=${email}&organization=${organization}`
+            }).then(response => response.text())
+              .then(data => console.log(data));
+            
+            document.getElementById('message').style.display = 'block';
+            document.getElementById('downloadLink').href = 'BC-7500 CRP.pdf'; // Replace with actual PDF path
+        });
+    </script>
+</body>
+</html>
